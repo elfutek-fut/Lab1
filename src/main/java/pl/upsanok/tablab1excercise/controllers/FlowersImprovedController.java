@@ -11,30 +11,44 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.upsanok.tablab1excercise.controllers.dto.Flower;
+import pl.upsanok.tablab1excercise.services.FlowersService;
+
+import java.util.List;
 
 @RestController()
-@CrossOrigin(origins = {"http://localhost:3000", "https://tab-front-production.up.railway.app"})
+@CrossOrigin(origins = {"*"})
+//@CrossOrigin(origins = {"https://tab-front-production.up.railway.app"})
 @AllArgsConstructor
 public class FlowersImprovedController {
 
-  @Autowired
-  private FlowersService flowersService;
+    @Autowired
+    private FlowersService flowersService;
 
-  @GetMapping("flowers/fav/users/{userName}")
-  public ResponseEntity<Flower> getFavForUser(
-      @PathVariable String userName
-  ) {
-    var result = flowersService.getFavouriteFlowerForUser(userName);
-    return ResponseEntity.ok(result);
-  }
+    @GetMapping("flowers")
+    public ResponseEntity<List<Flower>> getFlowers() {
+        return ResponseEntity.ok(flowersService.getAllFlowers());
+    }
 
-  @PostMapping("flowers/fav/users/{userName}")
-  public ResponseEntity<Flower> setNewFavForUser(
-      @PathVariable String userName,
-      @RequestBody Flower flower
-  ) {
-    boolean result = flowersService.saveFavouriteFlowerFor(userName, flower.name());
-    return ResponseEntity.ok(Flower.builder().name("testowa").build());
-  }
+    @GetMapping("flowers/fav/users/{userName}")
+    public ResponseEntity<Flower> getFavForUser(
+            @PathVariable String userName
+    ) {
+        var result = flowersService.getFavouriteFlowerForUser(userName);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("flowers/fav/users/{userName}")
+    public ResponseEntity<Flower> setNewFavForUser(
+            @PathVariable String userName,
+            @RequestBody Flower flower
+    ) {
+        // 1. Wykonujemy zapis
+        boolean result = flowersService.saveFavouriteFlowerFor(userName, flower.name());
+
+        // 2. Pobieramy aktualny ulubiony kwiatek (żeby upewnić się, że zwracamy to, co jest w bazie)
+        Flower updatedFav = flowersService.getFavouriteFlowerForUser(userName);
+
+        return ResponseEntity.ok(updatedFav);
+    }
 }
 
