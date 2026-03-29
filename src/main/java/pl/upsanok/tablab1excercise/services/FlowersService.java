@@ -26,6 +26,7 @@ public class FlowersService {
         for (pl.upsanok.tablab1excercise.entities.Flower f : entities) {
             result.add(
                     Flower.builder()
+                            .id(f.getId()) // Dodano ID z encji
                             .name(f.getName())
                             .build()
             );
@@ -49,6 +50,7 @@ public class FlowersService {
 
                     if (flowerEntity.isPresent()) {
                         return Flower.builder()
+                                .id(flowerEntity.get().getId())
                                 .name(flowerEntity.get().getName())
                                 .build();
                     }
