@@ -1,7 +1,13 @@
 package pl.upsanok.tablab1excercise.controllers.dto;
 
-import lombok.Builder;
+import lombok.*;
 
 @Builder
-public record Flower(Integer id, String name) {
+@Getter
+@Setter
+@NoArgsConstructor // Dodaj to!
+@AllArgsConstructor // Dodaj to!
+public class Flower {
+    private Integer id;
+    private String name;
 }

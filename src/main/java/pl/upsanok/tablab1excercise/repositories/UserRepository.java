@@ -6,4 +6,6 @@ import pl.upsanok.tablab1excercise.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
+    // Dodajemy tę metodę, aby móc szybko wyszukać użytkownika po nazwie
+    User findByName(String name);
 }

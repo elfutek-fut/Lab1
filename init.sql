@@ -10,4 +10,12 @@ CREATE TABLE users (
     CONSTRAINT fk_flower FOREIGN KEY (favourite_flower_id) REFERENCES flowers(id)
 );
 
+CREATE TABLE users_flowers (
+    user_id INT NOT NULL,
+    flower_id INT NOT NULL,
+    PRIMARY KEY (user_id, flower_id),
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_flower_rel FOREIGN KEY (flower_id) REFERENCES flowers(id) ON DELETE CASCADE
+);
+
 INSERT INTO flowers (name) VALUES ('Roza'), ('Tulipan'), ('Narcyz'), ('Hiacynt'), ('Stokrotka');
